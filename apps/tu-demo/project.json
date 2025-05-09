@@ -1,0 +1,43 @@
+{
+  "name": "tu-demo",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/tu-demo/src",
+  "targets": {
+    "build": {
+      "executor": "@trackunit/iris-app-sdk-rspack:build",
+      "options": {
+        "rspackConfig": "apps/tu-demo/rspack.config.ts",
+        "outputPath": "dist/apps/tu-demo"
+      },
+      "outputs": ["{options.outputPath}"]
+    },
+    "serve": {
+      "executor": "@trackunit/iris-app-sdk-rspack:serve",
+      "options": {
+        "rspackConfig": "apps/tu-demo/rspack.config.ts"
+      },
+      "outputs": ["{options.outputPath}"]
+    },
+    "submitApp": {
+      "executor": "@trackunit/iris-app:submit",
+      "dependsOn": ["build"],
+      "options": {
+        "inputPath": "dist/apps/tu-demo"
+      },
+      "outputs": ["{workspaceRoot}/dist/apps/tu-demo"]
+    },
+    "unpublishApp": {
+      "executor": "@trackunit/iris-app:unpublish",
+      "options": {
+        "inputPath": "dist/apps/tu-demo"
+      },
+      "dependsOn": [
+        {
+          "target": "build"
+        }
+      ],
+      "outputs": ["{workspaceRoot}/dist/apps/tu-demo"]
+    }
+  }
+}
